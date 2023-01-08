@@ -1,6 +1,6 @@
 ﻿namespace CodeChops.Crossblade;
 
-public static class RazorHelpers
+internal static class RazorHelpers
 {
     public static string? If(bool predicate, string output)
     {

@@ -15,8 +15,8 @@
     </ItemGroup>
     
     <PropertyGroup Label="Package">
-        <Version>1.0.1</Version>
-        <PackageReleaseNotes>Small textual changes.</PackageReleaseNotes>
+        <Version>1.0.2</Version>
+        <PackageReleaseNotes>Renamed RegistrationExtensions and don't scroll up when not navigated to new page.</PackageReleaseNotes>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Title>CodeChops.Crossblade</Title>
         <Description>Easy crossfades for your Blazor website.</Description>

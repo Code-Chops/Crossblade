@@ -96,8 +96,11 @@
 
 	private async Task ScrollUpAsync()
 	{
-		if (JsObject is null || !ShouldScrollUp)
+		if (JsObject is null || !ShouldScrollUp || NavigationManager.ToBaseRelativePath(NavigationManager.Uri) == PreviousRelativeUrl)
+		{
+			ShouldScrollUp = false;
 			return;
+		}
 		
 		await JsRuntime.InvokeVoidAsync("scrollUp", "crossblade-source");
 		ShouldScrollUp = false;
@@ -106,22 +109,21 @@
 	private async ValueTask OnNavigationChangingAsync(LocationChangingContext context)
 	{
 		var targetLocation = NavigationManager.ToBaseRelativePath(context.TargetLocation);
-		if (targetLocation == PreviousRelativeUrl)
-			return;
 
 		PreviousRelativeUrl = targetLocation;
 		
-		await ExecuteAsync();
+		if (IsAnimating)
+			await StopAnimationAsync();
+		
+		StartAnimating = true;
+		
+		StateHasChanged();
 	}
 
 	public async Task ExecuteAsync()
 	{
-		if (IsAnimating)
-			await StopAnimationAsync();
-
 		StartAnimating = true;
-		
-		StateHasChanged();
+		await OnAfterRenderAsync(firstRender: false);
 	}
 
 	private async Task StartAnimationAsync()
