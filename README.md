@@ -24,7 +24,7 @@ In order to try out this package, you need to execute the following easy steps:
 - Follow the [Getting started](#Getting-Started) steps above.
 - Optionally add the following css to your `site.css` or `app.css` (depending on the hosting model):
 ```css
-/* This will create a white background so the crossfades look smoother. */
+/* This will create a white background so the crossfades look better. */
 
 main {
     background-color: white;
