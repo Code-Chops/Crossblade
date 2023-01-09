@@ -5,7 +5,7 @@ Crossblade is a Blazor component for enabling crossfades when navigating between
 It works on every hosting model: Blazor WebAssembly (ASP.NET core hosted) or Blazor ServerSide. 
 Crossfades will be triggered when navigating to different pages by default.   
 
-> See www.CodeChops.nl for this package in action.
+> Check out www.CodeChops.nl to see this package in action, and to see more projects.
 
 # Getting started
 
