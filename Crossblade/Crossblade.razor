@@ -4,12 +4,12 @@
 @if (ChildContent is not null)
 {
 	<span id="crossblade-main">
-		<div id="crossblade-source" style="z-index: @(IsAnimating ? 0 : 1);">
+		<div id="crossblade-source" style="z-index: @(IsAnimating ? 0 : 1); @Position.GetAttribute();">
 			<span id="crossblade-container">
 				@ChildContent
 			</span>
 		</div>
-		<div id="crossblade-copy" class="@If(IsAnimating, "crossfade")">
+		<div id="crossblade-copy" class="@If(IsAnimating, "crossfade")" style="position: @Position.GetAttribute();">
 			<span id="crossblade-copy-inner"></span>
 		</div>
 	</span>
@@ -17,7 +17,7 @@
 
 <style>
 	.crossfade {
-		transition: opacity @(AnimationDuration)ms ease-in;
+		transition: opacity @(AnimationDuration)ms @TransitionTimingFunction;
 	}
 	
 	#crossblade-copy {
@@ -35,13 +35,24 @@
 	/// <summary>
 	/// In milliseconds.
 	/// </summary>
-	[Parameter] public int AnimationDuration { get; set; } = 350;
+	[Parameter] public int AnimationDuration { get; init; } = 350;
 	
 	/// <summary>
 	/// If true (default) crossfades occur between page navigations.
 	/// </summary>
-	[Parameter] public bool FireOnNavigationChanging { get; set; } = true;
-	[Parameter] public RenderFragment? ChildContent { get; set; }
+	[Parameter] public bool FireOnNavigationChanging { get; init; } = true;
+	
+	/// <summary>
+	/// The position of the crossfade containers (default: relative).
+	/// </summary>
+	[Parameter] public Position Position { get; init; } = Position.Relative;
+	
+	/// <summary>
+	/// The transition timing function (default: ease-in).
+	/// </summary>
+	[Parameter] public string TransitionTimingFunction { get; init; } = "ease-in";
+	
+	[Parameter] public RenderFragment? ChildContent { get; init; }
 	
 	public bool IsAnimating { get; private set; }
 	private bool StartAnimating { get; set; }
@@ -53,26 +64,27 @@
 
 	protected override async Task OnInitializedAsync()
 	{
-		if (RenderEnvironment is RenderEnvironment.WebassemblyHost)
-			return;
-
-		// Unfortunately there is no correct way to detect prerendering for Blazor ServerSide: https://github.com/dotnet/aspnetcore/issues/17282.
-		if (RenderEnvironment is RenderEnvironment.ServerSide)
+		switch (RenderEnvironment)
 		{
-			try
-			{
+			case RenderEnvironment.WebassemblyHost:
+				return;
+			
+			// Unfortunately there is no correct way to detect prerendering for Blazor ServerSide: https://github.com/dotnet/aspnetcore/issues/17282.
+			case RenderEnvironment.ServerSide:
+				try
+				{
+					JsObject = await JsRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/CodeChops.Crossblade/Crossblade.razor.js");
+				}
+				catch (Exception e) when (e is InvalidOperationException)
+				{
+					// Do nothing
+				}
+				break;
+			default:
 				JsObject = await JsRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/CodeChops.Crossblade/Crossblade.razor.js");
-			}
-			catch (Exception e) when (e is InvalidOperationException)
-			{
-				// Do nothing
-			}
+				break;
 		}
-		else
-		{
-			JsObject = await JsRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/CodeChops.Crossblade/Crossblade.razor.js");
-		}
-
+		
 		if (FireOnNavigationChanging)
 		{
 			PreviousRelativeUrl = NavigationManager.ToBaseRelativePath(NavigationManager.Uri);
@@ -120,7 +132,7 @@
 		StateHasChanged();
 	}
 
-	public async Task ExecuteAsync()
+	public async Task ExecuteFadeAsync()
 	{
 		StartAnimating = true;
 		await OnAfterRenderAsync(firstRender: false);

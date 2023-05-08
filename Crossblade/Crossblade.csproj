@@ -15,8 +15,8 @@
     </ItemGroup>
     
     <PropertyGroup Label="Package">
-        <Version>1.0.2</Version>
-        <PackageReleaseNotes>Renamed RegistrationExtensions and don't scroll up when not navigated to new page.</PackageReleaseNotes>
+        <Version>1.0.3</Version>
+        <PackageReleaseNotes>Added TransitionTimingFunction and Position.</PackageReleaseNotes>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Title>CodeChops.Crossblade</Title>
         <Description>Easy crossfades for your Blazor website.</Description>
@@ -58,6 +58,5 @@
     <ItemGroup Label="PackageReferences">
         <PackageReference Include="Microsoft.AspNetCore.Components" Version="7.0.1" />
         <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="7.0.1" />
-		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="7.0.1" PrivateAssets="all" />
     </ItemGroup>
 </Project>
