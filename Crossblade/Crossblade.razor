@@ -4,7 +4,7 @@
 @if (ChildContent is not null)
 {
 	<span id="crossblade-main">
-		<div id="crossblade-source" style="z-index: @(IsAnimating ? 0 : 1); @Position.GetAttribute();">
+		<div id="crossblade-source" style="z-index: @(IsAnimating ? 0 : 1); position: @Position.GetAttribute();">
 			<span id="crossblade-container">
 				@ChildContent
 			</span>
