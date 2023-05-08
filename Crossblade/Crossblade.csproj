@@ -15,8 +15,8 @@
     </ItemGroup>
     
     <PropertyGroup Label="Package">
-        <Version>1.0.6</Version>
-        <PackageReleaseNotes>Added TransitionTimingFunction and Position.</PackageReleaseNotes>
+        <Version>1.0.7</Version>
+        <PackageReleaseNotes>Removed Position parameter.</PackageReleaseNotes>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Title>CodeChops.Crossblade</Title>
         <Description>Easy crossfades for your Blazor website.</Description>

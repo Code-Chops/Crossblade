@@ -4,12 +4,12 @@
 @if (ChildContent is not null)
 {
 	<span id="crossblade-main">
-		<div id="crossblade-source" style="z-index: @(IsAnimating ? 0 : 1); position: @Position.GetAttribute();">
+		<div id="crossblade-source" style="z-index: @(IsAnimating ? 0 : 1);">
 			<span id="crossblade-container">
 				@ChildContent
 			</span>
 		</div>
-		<div id="crossblade-copy" class="@If(IsAnimating, "crossfade")" style="position: @Position.GetAttribute();">
+		<div id="crossblade-copy" class="@If(IsAnimating, "crossfade")">
 			<span id="crossblade-copy-inner"></span>
 		</div>
 	</span>
@@ -41,12 +41,7 @@
 	/// If true (default) crossfades occur between page navigations.
 	/// </summary>
 	[Parameter] public bool FireOnNavigationChanging { get; init; } = true;
-	
-	/// <summary>
-	/// The position of the crossfade containers (default: relative).
-	/// </summary>
-	[Parameter] public Position Position { get; init; } = Position.Relative;
-	
+
 	/// <summary>
 	/// The transition timing function (default: ease-in).
 	/// </summary>
