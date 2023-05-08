@@ -15,7 +15,7 @@
     </ItemGroup>
     
     <PropertyGroup Label="Package">
-        <Version>1.0.4</Version>
+        <Version>1.0.5</Version>
         <PackageReleaseNotes>Added TransitionTimingFunction and Position.</PackageReleaseNotes>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Title>CodeChops.Crossblade</Title>
