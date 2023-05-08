@@ -15,6 +15,8 @@ Crossfades will be triggered when navigating to different pages by default.
 4. Provide the following parameters (or don't provide them for the defaults):
    - `AnimationDuration`: The animation duration in milliseconds (default: 350ms).
    - `FireOnNavigationChanging`: Crossfade when navigating to different locations on your website (default: true).
+   - `Position`: The position of the crossfade containers (default: relative).
+   - `TransitionTimingFunction`: The transition timing function (default: ease-in).
 
 > If crossfades have to be triggered manually, simply call `await CrossBlade.Execute()`.
 
