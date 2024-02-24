@@ -60,13 +60,10 @@ public partial class Crossblade
                 break;
         }
 
-        if (this.FireOnNavigationChanging)
-        {
-            this.PreviousRelativeUrl = new Uri(this.NavigationManager.Uri).PathAndQuery;
-            this.Registration = this.NavigationManager.RegisterLocationChangingHandler(this.OnNavigationChangingAsync);
-        }
+        this.PreviousRelativeUrl = new Uri(this.NavigationManager.Uri).PathAndQuery;
 
-        this.PreviousRelativeUrl = this.NavigationManager.ToBaseRelativePath(this.NavigationManager.Uri);
+        if (this.FireOnNavigationChanging)
+            this.Registration = this.NavigationManager.RegisterLocationChangingHandler(this.OnNavigationChangingAsync);
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -84,7 +81,7 @@ public partial class Crossblade
     private async Task ScrollUpAsync()
     {
         if (this.JsObject is null || !this.ShouldScrollUp ||
-            this.NavigationManager.ToBaseRelativePath(this.NavigationManager.Uri) == this.PreviousRelativeUrl)
+            new Uri(this.NavigationManager.Uri).PathAndQuery == this.PreviousRelativeUrl)
         {
             this.ShouldScrollUp = false;
             return;
@@ -96,7 +93,7 @@ public partial class Crossblade
 
     private async ValueTask OnNavigationChangingAsync(LocationChangingContext context)
     {
-        var targetLocation = this.NavigationManager.ToBaseRelativePath(context.TargetLocation);
+        var targetLocation = new Uri(context.TargetLocation).PathAndQuery;
 
         this.PreviousRelativeUrl = targetLocation;
 

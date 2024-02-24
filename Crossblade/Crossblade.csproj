@@ -15,7 +15,7 @@
     </ItemGroup>
 
     <PropertyGroup Label="Package">
-        <Version>1.0.8</Version>
+        <Version>1.0.9</Version>
         <PackageReleaseNotes>Removed Position parameter.</PackageReleaseNotes>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Title>CodeChops.Crossblade</Title>
