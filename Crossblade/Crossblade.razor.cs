@@ -39,6 +39,7 @@ public partial class Crossblade
         switch (this.RenderEnvironment)
         {
             case RenderEnvironment.WebassemblyHost:
+                await base.OnInitializedAsync();
                 return;
 
             // Unfortunately there is no correct way to detect prerendering for Blazor ServerSide: https://github.com/dotnet/aspnetcore/issues/17282.
@@ -64,6 +65,8 @@ public partial class Crossblade
 
         if (this.FireOnNavigationChanging)
             this.Registration = this.NavigationManager.RegisterLocationChangingHandler(this.OnNavigationChangingAsync);
+
+        await base.OnInitializedAsync();
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -76,12 +79,15 @@ public partial class Crossblade
 
         if (this.ShouldScrollUp)
             await this.ScrollUpAsync();
+
+        await base.OnAfterRenderAsync(firstRender);
     }
 
     private async Task ScrollUpAsync()
     {
-        if (this.JsObject is null || !this.ShouldScrollUp ||
-            new Uri(this.NavigationManager.Uri).PathAndQuery == this.PreviousRelativeUrl)
+        if (this.JsObject is null
+            || !this.ShouldScrollUp
+            || new Uri(this.NavigationManager.Uri).PathAndQuery == this.PreviousRelativeUrl)
         {
             this.ShouldScrollUp = false;
             return;
@@ -93,6 +99,12 @@ public partial class Crossblade
 
     private async ValueTask OnNavigationChangingAsync(LocationChangingContext context)
     {
+        if (!this.FireOnNavigationChanging)
+        {
+            context.PreventNavigation();
+            return;
+        }
+
         var targetLocation = new Uri(context.TargetLocation).PathAndQuery;
 
         this.PreviousRelativeUrl = targetLocation;
