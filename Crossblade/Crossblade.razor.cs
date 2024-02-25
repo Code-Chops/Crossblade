@@ -100,10 +100,7 @@ public partial class Crossblade
     private async ValueTask OnNavigationChangingAsync(LocationChangingContext context)
     {
         if (!this.FireOnNavigationChanging)
-        {
-            context.PreventNavigation();
             return;
-        }
 
         var targetLocation = new Uri(context.TargetLocation).PathAndQuery;
 
